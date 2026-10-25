@@ -1,24 +1,23 @@
 class Solution {
 public:
-    int lengthOfLongestSubstring(string s)
-    {
-        int left = 0;
-        int right = 0;
-        int maxLen = 0;
-        int freq[256] = {0};
-        while(right < s.size())
-        {
-            int val = s[right];
-            freq[val]++;
-            while(freq[val] > 1)
-            {
+    int lengthOfLongestSubstring(string s) {
+        vector<int> freq(128, 0);
+        int left = 0, right = 0;
+        int len = 0;
+        while(right < s.size()) {
+            char ch = s[right];
+            if(freq[ch] > 0) {
                 freq[s[left]]--;
                 left++;
             }
-            maxLen = max(maxLen, right - left + 1);
-
-            right++;
+            else {
+                freq[ch]++;
+                if(len < right - left + 1) {
+                    len = right - left + 1;
+                }
+                right++;
+            }
         }
-        return maxLen;
+        return len;
     }
 };
